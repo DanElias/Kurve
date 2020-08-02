@@ -1,0 +1,147 @@
+{
+    "vertices": [
+        {
+            "id": "SWA",
+            "name": "SWA"
+        },
+        {
+            "id": "SWB",
+            "name": "SWB"
+        },
+        {
+            "id": "PC1",
+            "name": "PC1"
+        },
+        {
+            "id": "PC2",
+            "name": "PC2"
+        },
+        {
+            "id": "PC3",
+            "name": "PC3"
+        },
+        {
+            "id": "PC4",
+            "name": "PC4"
+        },
+        {
+            "id": "PC5",
+            "name": "PC5"
+        },
+        {
+            "id": "PC6",
+            "name": "PC6"
+        },
+        {
+            "id": "PC7",
+            "name": "PC7"
+        },
+        {
+            "id": "PC8",
+            "name": "PC8"
+        },
+        {
+            "id": "RA",
+            "name": "RA"
+        },
+        {
+            "id": "ISP",
+            "name": "ISP"
+        },
+        {
+            "id": "WWW",
+            "name": "WWW"
+        },
+        {
+            "id": "TIKTOK",
+            "name": "TIKTOK"
+        },
+        {
+            "id": "TWITTER",
+            "name": "TWITTER"
+        },
+        {
+            "id": "TACOS",
+            "name": "TACOS"
+        },
+        {
+            "id": "GOOGLE",
+            "name": "GOOGLE"
+        },
+        {
+            "id": "YOUTUBE",
+            "name": "YOUTUBE"
+        }
+    
+    ],
+    "edges": [
+        {
+            "source": "WWW",
+            "target": "TIKTOK"
+        },
+        {
+            "source": "WWW",
+            "target": "TWITTER"
+        },
+        {
+            "source": "WWW",
+            "target": "TACOS"
+        },
+        {
+            "source": "WWW",
+            "target": "YOUTUBE"
+        },
+        {
+            "source": "WWW",
+            "target": "GOOGLE"
+        },
+        {
+            "source": "WWW",
+            "target": "ISP"
+        },
+        {
+            "source": "SWA",
+            "target": "PC1"
+        },
+        {
+            "source": "SWA",
+            "target": "PC2"
+        },
+        {
+            "source": "SWA",
+            "target": "PC3"
+        },
+        {
+            "source": "SWA",
+            "target": "PC4"
+        },
+        {
+            "source": "SWB",
+            "target": "PC5"
+        },
+        {
+            "source": "SWB",
+            "target": "PC6"
+        },
+        {
+            "source": "SWB",
+            "target": "PC7"
+        },
+        {
+            "source": "SWB",
+            "target": "PC8"
+        },
+        {
+            "source": "SWB",
+            "target": "RA"
+        },
+        {
+            "source": "SWA",
+            "target": "RA"
+        },
+        {
+            "source": "ISP",
+            "target": "RA"
+        }
+    ]
+}

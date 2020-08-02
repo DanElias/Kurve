@@ -1,0 +1,84 @@
+body {
+    font-family: 'Bungee';
+    margin: 0;
+    border: none;
+    border: 0;
+    color: white;
+}
+
+html, body{
+    margin: 0px;
+    }
+
+.normal-text {
+    font-family: 'Nunito';
+    margin: 0;
+}
+
+.div {
+    border: none;
+    margin: 0;
+    border: 0;
+    padding: 0;
+   
+}
+
+.col{
+    margin: 0;
+    padding: 0;
+    border: none;
+ }
+
+ .row{
+    margin: 0;
+    padding: 0;
+    border: none;
+ }
+
+ .nav{
+     margin: 0;
+     border: 0ch;
+ }
+
+#properties {
+    margin: 5%;
+}
+
+footer{
+    margin: 0;
+    border: none;
+}
+
+canvas {
+    background: black;
+    padding: 0;
+    margin: 0;
+    border: black;
+    border: none;
+    outline: 0px solid transparent;
+}
+
+nav{
+    padding-left: 4%;
+    padding-right: 4%;;
+}
+
+footer {
+    margin: 0;
+    border: none;
+    background-color: violet;
+    border: 0;
+}
+
+#logo{
+    width: 1cm;
+    height: 1cm;
+}
+
+#brand-name {
+    font-size: large;
+}
+
+.spaced-row {
+    margin: 0.3cm;
+}

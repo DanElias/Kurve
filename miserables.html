@@ -1,0 +1,354 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Kurve | Graph Visualizer</title>
+
+<!-- Materialize Js -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+<!-- Materialize CSS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+<!-- CSS -->
+<link rel="stylesheet" href="libs/jquery-ui/jquery-ui.css" />
+<link rel="stylesheet" href="css/styles.css" />
+<link rel="icon" type="image/png" href="images/kurve-logo.png" sizes="64x64">
+<!-- Fonts -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Bungee">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+
+<!-- Jquery -->
+<script src="libs/jquery-3.4.1/jquery-3.4.1.min.js"></script>
+<script src="libs/jquery-ui/jquery-ui.js"></script>
+
+<!-- Three js -->
+<script src="libs/three.js/three.js"></script>
+<script src="libs/three.js/controls/OrbitControls.js"></script>
+<script src="libs/three.js/controls/TransformControls.js"></script>
+<script src="libs/colorpicker/js/colorpicker.js"></script>
+
+<!-- Three js - Object loaders-->
+<script src="libs/three.js/loaders/OBJLoader.js"></script>
+<script src="libs/three.js/utils/promiseLoader.js"></script>
+
+ <!-- All the postprocessing dependencies  -->
+ <script src="libs/three.js/postProcessing/EffectComposer.js"></script>
+ <script src="libs/three.js/postProcessing/RenderPass.js"></script>
+ <script src="libs/three.js/postProcessing/CopyShader.js"></script>
+ <script src="libs/three.js/postProcessing/ShaderPass.js"></script>
+ <script src="libs/three.js/postProcessing/LuminosityHighPassShader.js"></script>
+ <script src="libs/three.js/postProcessing/UnrealBloomPass.js"></script>
+
+ <!-- Cannon JS -  Physics -->
+ <script src="libs/cannon.js/build/cannon.js"></script>
+ <script src="libs/cannon.js/build/cannon.demo.js"></script>
+ <script src="libs/cannon.js/libs/dat.gui.js"></script>
+ <script src="libs/cannon.js/libs/TrackballControls.js"></script>
+ <script src="libs/cannon.js/libs/Detector.js"></script>
+ <script src="libs/cannon.js/libs/Stats.js"></script>
+ <script src="libs/cannon.js/libs/smoothie.js"></script>
+
+<!-- App Javascripts-->
+<script src="class/graph.js"></script>
+<script src="class/vertex.js"></script>
+<script src="class/edge.js"></script>
+<script src="js/app.js"></script>
+<script src="js/kurve.js"></script>
+<script src="js/sceneHandler.js"></script>
+
+<script type="text/javascript">
+  
+	$(document).ready(
+			function() {
+				let canvas = document.getElementById("webglcanvas");
+				App.run();
+    			initControls();
+			}
+	);
+
+</script>
+
+</head>
+
+<body style="background-color: black">
+
+	
+
+	<nav class="grey darken-4 z-depth-5" id="nav">
+		<div class="nav-wrapper">
+			<div class="valign-wrapper">
+				<a href="index.html"><img  src="images/kurve-logo.png" id="logo" class="responsive-img"></a>
+				<a href="#" id="brand-name" class="brand-logo right">KURVE</a>
+				<ul id="nav-mobile" class="left hide-on-med-and-down">
+					<li> <a class="modal-trigger" href="#modal-about">About</a></li>
+					<li> <a class="modal-trigger" href="#modal-examples">Examples</a></li>
+					<li> <a class="modal-trigger" href="#modal-help">Help</a></li>
+				</ul>
+			</div>
+		</div>
+  	</nav>
+
+    <div class="row center-align" > 
+        <div class="col m10" id="canvas_col" style="height: 100%; z-index:-10; border: 0; margin: 0;"> 
+			<canvas id="webglcanvas" width=1100 height=600 ></canvas>
+		</div>
+		<div class="col m2" id="controls" style="height: 100%; background-color: #1a1919; padding: 1cm;"> 
+			<!--
+			<div class="row spaced-row">
+				<div class="col m12">
+					<form action="#">
+						<div class="file-field input-field">
+						  <div class="btn-floating btn-medium waves-effect waves-light grey darken-3">
+							<span style="font-size: 0.1cm;">File</span>
+							<input type="file">
+						  </div>
+						  <div class="file-path-wrapper">
+							<input class="file-path validate" type="text">
+						  </div>
+						</div>
+					</form>
+				</div>
+			</div>-->
+			<div class="row spaced-row">
+				Vertex: 
+			</div>
+			<div class="row spaced-row" id="selected_vertex_div" style="font-family: Lato;">
+				no selection
+			</div>
+			<div class="row spaced-row">
+				Icons
+			</div>
+			<div class="row spaced-row">
+				<div class="col m4">
+					<a class="btn-floating btn-medium waves-effect waves-light grey darken-3" id="smiley">
+						<span style='font-size:1.5em;'>&#128578;</span> <!-- happy -->
+					</a>
+				</div>
+				<div class="col m4">
+					<a class="btn-floating btn-medium waves-effect waves-light grey darken-3" id="wink">
+						<span style='font-size:1.5em;'>&#128521;</span> <!-- wink -->
+					</a>
+				</div>
+				<div class="col m4">
+					<a class="btn-floating btn-medium waves-effect waves-light grey darken-3" id="laugh">
+						<span style='font-size:1.5em;'>&#129315;</span> <!-- laugh -->
+					</a>
+				</div>
+			</div>
+			<div class="row spaced-row">
+				<div class="col m4">
+					<a class="btn-floating btn-medium waves-effect waves-light grey darken-3" id="star">
+						<span style='font-size:1.5em;'>&#11088;</span> <!-- star -->
+					</a>
+				</div>
+				<div class="col m4">
+					<a class="btn-floating btn-medium waves-effect waves-light grey darken-3" id="heart">
+						<span style='font-size:1.5em;'>&#129505;</span> <!-- heart -->
+					</a>
+				</div>
+				<div class="col m4">
+					<a class="btn-floating btn-medium waves-effect waves-light grey darken-3" id="flag">
+						<span style='font-size:1.5em;'>&#128681;</span> <!-- flag -->
+					</a>
+				</div>
+			</div>
+			<div class="row spaced-row">
+				<div class="col m4">
+					<a class="btn-floating btn-medium waves-effect waves-light grey darken-3" id="ny">
+						<span style='font-size:1.5em;'>&#128509;</span> <!-- NY -->
+					</a>
+				</div>
+				<div class="col m4">
+					<a class="btn-floating btn-medium waves-effect waves-light grey darken-3" id="plane">
+						<span style='font-size:1.5em;'>&#128747;</span> <!-- plane -->
+					</a>
+				</div>
+				<div class="col m4">
+					<a class="btn-floating btn-medium waves-effect waves-light grey darken-3" id="earth">
+						<span style='font-size:1.5em;'>&#127758;</span> <!-- earth -->
+					</a>
+				</div>
+			</div>
+			<div class="row spaced-row">
+				<div class="col m4">
+					<a class="btn-floating btn-medium waves-effect waves-light grey darken-3" id="girl">
+						<span style='font-size:1.5em;'>&#128103;</span> <!-- girl -->
+					</a>
+				</div>
+				<div class="col m4">
+					<a class="btn-floating btn-medium waves-effect waves-light grey darken-3" id="factory">
+						<span style='font-size:1.5em;'>&#127981;</span> <!-- factory -->
+					</a>
+				</div>
+				<div class="col m4">
+					<a class="btn-floating btn-medium waves-effect waves-light grey darken-3" id="boy">
+						<span style='font-size:1.5em;'>&#128102;</span> <!-- boy -->
+					</a>
+				</div>
+			</div>
+			<div class="row spaced-row">
+				<div class="col m4">
+					<a class="btn-floating btn-medium waves-effect waves-light grey darken-3" id="email">
+						<span style='font-size:1.5em;'>&#128231;</span> <!-- email -->
+					</a>
+				</div>
+				<div class="col m4">
+					<a class="btn-floating btn-medium waves-effect waves-light grey darken-3" id="web">
+						<span style='font-size:1.5em;'>&#127760;</span> <!-- web -->
+					</a>
+				</div>
+				<div class="col m4">
+					<a class="btn-floating btn-medium waves-effect waves-light grey darken-3" id="laptop">
+						<span style='font-size:1.5em;'>&#128187;</span> <!-- laptop -->
+					</a>
+				</div>
+			</div>
+			<div class="row spaced-row">
+				Colors
+			</div>
+			<div class="row spaced-row">
+				<div class="col m4">
+					<a class="btn-floating btn-medium waves-effect waves-light" style="background-color: #f6b923;" id='f6b923'></a>
+				</div>
+				<div class="col m4">
+					<a class="btn-floating btn-medium waves-effect waves-light" style="background-color: #ff760e;" id='ff760e'></a>
+				</div>
+				<div class="col m4">
+					<a class="btn-floating btn-medium waves-effect waves-light" style="background-color: #fb2323;" id='fb2323'></a>
+				</div>
+			</div>
+			<div class="row spaced-row">
+				<div class="col m4">
+					<a class="btn-floating btn-medium waves-effect waves-light" style="background-color: #fdd25c;" id='fdd25c'></a>
+				</div>
+				<div class="col m4">
+					<a class="btn-floating btn-medium waves-effect waves-light" style="background-color: #a9f352;" id='a9f352'></a>
+				</div>
+				<div class="col m4">
+					<a class="btn-floating btn-medium waves-effect waves-light" style="background-color: #ff947a;" id='ff947a'></a>
+				</div>
+			</div>
+			<div class="row spaced-row">
+				<div class="col m4">
+					<a class="btn-floating btn-medium waves-effect waves-light" style="background-color: #77b8a0;" id='77b8a0'></a>
+				</div>
+				<div class="col m4">
+					<a class="btn-floating btn-medium waves-effect waves-light" style="background-color: #bf83ff;" id='bf83ff'></a>
+				</div>
+				<div class="col m4">
+					<a class="btn-floating btn-medium waves-effect waves-light" style="background-color: #ff6291;" id='ff6291'></a>
+				</div>
+			</div>
+			
+		</div>
+		
+    </div>
+</body>
+
+<footer class="page-footer  grey darken-4 z-depth-5" style="background-color: #1a1919">
+	<div class="container">
+	  <div class="row">
+		<div class="col l6 s12">
+		  <h5 class="white-text">KURVE - GRAPH VIZUALIZER</h5>
+		  <p class="grey-text text-lighten-4">Created by Daniel Elias</p>
+		</div>
+		<div class="col l4 offset-l2 s12">
+		  <h5 class="white-text">Contact</h5>
+		  <ul>
+			<li><a class="grey-text text-lighten-3"  target="_blank" href="https://github.com/DanElias">GitHub</a></li>
+			<li><a class="grey-text text-lighten-3"  target="_blank" href="https://www.linkedin.com/in/daniel-elias-becerra-5b9579156/">LinkedIn</a></li>
+			<li><a class="grey-text text-lighten-3"  target="_blank" href="mailto:daniel.eliasbecerra98@gmail.com">Email</a></li>
+		  </ul>
+		</div>
+	  </div>
+	</div>
+	<div class="footer-copyright">
+	  <div class="container">
+	  © 2020 Daniel Elias
+	  <a class="grey-text text-lighten-4 right" href="#!"></a>
+	  </div>
+	</div>
+
+	<!-- Modal Structure -->
+	<div id="modal-about" class="modal bottom-sheet" style="background-color: #1a1919">
+		<div class="modal-content">
+		  <h4><span style='font-size:1em;'>&#128187;</span> About</h4>
+			<p style="font-family: Lato;">
+				Kurve Graph Visualizer is a Web App developed using Javascript, WebGL and Three js for 3D Graphics and Cannon js for the Physics Engine.
+			</p>
+			<p style="font-family: Lato;">
+				The visualizer displays a Force Directed Graph given by the Eades' Algorithm in which connected vertices attract each other, while disconnected ones repell each other.
+			</p>
+			<p style="font-family: Lato;">
+				Any json file in the format described in the Read.me file can be used to display its graph.
+			</p>
+		</div>
+		<div class="modal-footer" style="background-color: #1a1919">
+		  <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
+		</div>
+	</div>
+	<div id="modal-examples" class="modal bottom-sheet" style="background-color: #1a1919">
+		<div class="modal-content">
+		  <h4><span style='font-size:1em;'>&#128194;</span> Examples</h4>
+		  	<p style="font-family: Lato;">
+				Click on the following examples to see their graph visualization:
+			</p>
+			<br>
+			<div class="row spaced-row">
+				<div class="col m4 center">
+					<a class="btn-floating center btn-large waves-effect waves-light grey darken-3" href="index.html">
+						<span style='font-size:1.5em;'>&#128161;</span> <!-- happy -->
+					</a>
+					<p>Simple Graph</p>
+				</div>
+				<div class="col m4 center">
+					<a class="btn-floating btn-large waves-effect waves-light grey darken-3" href="miserables.html">
+						<span style='font-size:1.5em;'>&#127917;</span> <!-- wink -->
+					</a>
+					<p>Les Misérables</p>
+				</div>
+				<div class="col m4 center">
+					<a class="btn-floating btn-large waves-effect waves-light grey darken-3" href="networks.html">
+						<span style='font-size:1.5em;'>&#127760;</span> <!-- web -->
+					</a>
+					<p>Networks</p>
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer" style="background-color: #1a1919">
+		  <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
+		</div>
+	</div>
+	<div id="modal-help" class="modal bottom-sheet" style="background-color: #1a1919">
+		<div class="modal-content">
+		  <h4><span style='font-size:1em;'>&#10068;</span> Help</h4> 
+			<ul>
+		  	<p style="font-family: Lato;">
+					Click on a node in the visualization to change its marker to a different color or icon.
+			</p>
+			<p style="font-family: Lato;">
+					Click on the examples tab to see another of the available visualizations
+			</p>
+			<p style="font-family: Lato;">
+					More features to come!<span style='font-size:1.5em;'>&#128521;</span>
+			</p>
+			</ul>	
+		</div>
+		<div class="modal-footer" style="background-color: #1a1919">
+		  <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
+		</div>
+	</div>
+
+	<script>
+		  document.addEventListener('DOMContentLoaded', function() {
+				var elems = document.querySelectorAll('.modal');
+				var instances = M.Modal.init(elems);
+			});
+	</script>
+
+	<div id="json" style="visibility: hidden;" style="border: 0; margin: 0; height:0">data/miserables.json</div>
+
+</footer>
+
+</html>
