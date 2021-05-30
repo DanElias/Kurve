@@ -1,4 +1,4 @@
-# **Kurve - Graph Visualizer**
+# **Kurve - 3D Graph Visualizer**
 ### **_For business, science and creators_**
 
 *Kurve Graph Visualizer is an open source project that lets users visualize their graph data in 3D space.*
